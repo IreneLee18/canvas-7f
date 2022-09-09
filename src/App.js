@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useLayoutEffect } from "react";
 import Header from "./Components/Headers";
 import Footer from "./Components/Footer";
 import Canvas from "./Components/Canvas";
@@ -36,10 +36,11 @@ function App() {
   const handleClearAll = () => {
     canvasRef.current.clearCanvasAll();
   };
-  useEffect(() => {
-    if (props.id === "eraser" && color !== "#E8E8E8") {
-      alert("還是橡皮擦時不能切換顏色拉！");
+  useLayoutEffect(() => {
+    if (props.id === "eraser") {
       setColor("#E8E8E8");
+    } else {
+      setColor("#000000");
     }
   }, [props.id, color]);
   return (
