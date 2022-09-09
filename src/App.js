@@ -33,8 +33,12 @@ function App() {
     }
   };
   const canvasRef = useRef(null);
-  const canvas = canvasRef.current
-  const ctx = canvas.getContext('2d');
+  const context = useRef(null);
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    context.current = canvas.getContext("2d");
+  }, []);
+  const ctx = context.current;
   const handleCanvasClick = () => {
     switch (props.id) {
       case "fill":
