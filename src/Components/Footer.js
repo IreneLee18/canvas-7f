@@ -1,5 +1,4 @@
-import { useState } from "react";
-function Footer({ propsOpen, props, setProps, color, setColor, handelClick }) {
+function Footer({ propsOpen, props, setProps, color, setColor, handelClick,size,setSize }) {
   const colorData = ["#FFFFFF", "#000000", "#9BFFCD", "#00CC99", "#01936F"];
   const propsData = [
     {
@@ -21,7 +20,6 @@ function Footer({ propsOpen, props, setProps, color, setColor, handelClick }) {
       id: "eraser",
     },
   ];
-  const [size, setSize] = useState(10);
   return (
     <>
       <footer>

@@ -160,11 +160,6 @@ header .closeHeaderBtn {
   top: -28px;
 }
 
-canvas {
-  width: 100%;
-  height: 100%;
-}
-
 footer .props {
   position: absolute;
   left: 50%;

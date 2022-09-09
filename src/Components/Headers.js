@@ -1,4 +1,4 @@
-function Header({ headerOpen, setBackgroundColor, handelClick }) {
+function Header({ headerOpen, clearAll, handelClick }) {
   return (
     <>
       <header>
@@ -7,7 +7,7 @@ function Header({ headerOpen, setBackgroundColor, handelClick }) {
             <span className="material material-symbols-outlined">save</span>
             <span>SAVE</span>
           </li>
-          <li onClick={() => setBackgroundColor("#E8E8E8")}>
+          <li onClick={clearAll}>
             <span className="material material-symbols-outlined">
               crop_free
             </span>
