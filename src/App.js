@@ -40,7 +40,7 @@ function App() {
     if (props.id === "eraser") {
       setColor("#E8E8E8");
     } else {
-      setColor("#000000");
+      if (color === "#E8E8E8") setColor("#000000");
     }
   }, [props.id, color]);
   return (
