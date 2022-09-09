@@ -97,6 +97,10 @@ ul {
   color: #fff;
 }
 
+label {
+  cursor: pointer;
+}
+
 header {
   position: relative;
 }
@@ -228,7 +232,7 @@ footer .props .active {
   opacity: 0.5;
 }
 
-footer .props input {
+footer .props input[type="number"] {
   width: 74px;
   height: 46px;
   border-radius: 24px;
@@ -248,8 +252,20 @@ footer .props .color-group {
   margin-left: 40px;
 }
 
-footer .props .color-group span {
+footer .props .color-group label {
   margin-right: 16px;
+  position: relative;
+}
+
+footer .props .color-group label input[type="color"] {
+  position: absolute;
+  opacity: 0;
+  z-index: -1;
+}
+
+footer .props .color-group ul {
+  max-width: 672px;
+  overflow: scroll;
 }
 
 footer .props .color-item {

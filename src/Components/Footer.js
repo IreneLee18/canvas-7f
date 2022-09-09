@@ -1,5 +1,6 @@
-function Footer({ propsOpen, props, setProps, color, setColor, handelClick,size,setSize }) {
-  const colorData = ["#FFFFFF", "#000000", "#9BFFCD", "#00CC99", "#01936F"];
+import { useState, useRef } from "react";
+function Footer({ propsOpen, props, setProps, color, setColor, handelClick, size, setSize}) {
+  const [colorData, setColorData] = useState([ "#FFFFFF", "#000000", "#9BFFCD", "#00CC99", "#01936F"]);
   const propsData = [
     {
       normal: "props-icons material-icons",
@@ -20,6 +21,13 @@ function Footer({ propsOpen, props, setProps, color, setColor, handelClick,size,
       id: "eraser",
     },
   ];
+  const newColor = useRef("#000000");
+  const addNweColor = (e) => {
+    newColor.current = e.target.value;
+    if (colorData.includes(newColor.current)) return;
+    setColorData((state) => [...state, newColor.current]);
+    setColor(newColor.current)
+  };
   return (
     <>
       <footer>
@@ -57,7 +65,15 @@ function Footer({ propsOpen, props, setProps, color, setColor, handelClick,size,
                 </label>
               </li>
               <li className="color-group">
-                <span>COLOR:</span>
+                <label htmlFor="newColor">
+                  COLOR:
+                  <input
+                    id="newColor"
+                    type="color"
+                    value={newColor.current}
+                    onChange={addNweColor}
+                  />
+                </label>
                 <ul>
                   {colorData.map((item) => (
                     <li key={item} id={item} className="color-item">
