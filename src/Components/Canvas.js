@@ -1,10 +1,7 @@
 import { useOnDraw } from "../Hooks/CanvasHooks";
 import { useRef, useEffect, useImperativeHandle, forwardRef } from "react";
 
-function Canvas(
-  { props, setBackgroundColor, backgroundColor, color, size },
-  ref
-) {
+function Canvas({ props, backgroundColor, color, size }, ref) {
   const currentSize = useRef(size);
   const currentColor = useRef(color);
   const { setCanvasRef, startPainting, stopPainting, ctx } = useOnDraw(onDraw);
