@@ -1,85 +1,30 @@
-import { useState, useRef, useEffect } from "react";
-import Header from "./Components/Headers";
-import Footer from "./Components/Footer";
-function App() {
-  const [headerOpen, setHeaderOpen] = useState(true);
-  const [propsOpen, setPropsOpen] = useState(true);
-  const [props, setProps] = useState({
-    name: "brush",
-    id: "brush",
-  });
-  // const [size, setSize] = useState(10);
-  const [color, setColor] = useState("#FFFFFF");
-  const [backgroundColor, setBackgroundColor] = useState("#E8E8E8");
-  const [isPainting, setIsPainting] = useState(false);
-  const handelClick = (e) => {
-    switch (e.target.id) {
-      case "isHeaderBtn":
-        if (headerOpen) {
-          setHeaderOpen(false);
-        } else {
-          setHeaderOpen(true);
-        }
-        break;
-      case "isPropsBtn":
-        if (propsOpen) {
-          setPropsOpen(false);
-        } else {
-          setPropsOpen(true);
-        }
-        break;
-      default:
-        new Error("error");
-    }
-  };
-  const canvasRef = useRef(null);
-  const canvas = canvasRef.current
-  const ctx = canvas.getContext('2d');
-  const handleCanvasClick = () => {
-    switch (props.id) {
-      case "fill":
-        setBackgroundColor(color);
-        break;
-      default:
-        new Error("error");
-    }
-  };
-  const handlePainting = (e) => {
-    if (!isPainting) return;
-    ctx.lineWidth = 10;
-    ctx.linCap = "round";
-    ctx.beginPath();
-    ctx.lintTo(e.ClientX, e.ClientY);
-    ctx.stroke();
-    ctx.moveTo(e.ClientX, e.ClientY);
-  };
+import { useState } from "react";
+function Footer({ propsOpen, props, setProps, color, setColor, handelClick }) {
+  const colorData = ["#FFFFFF", "#000000", "#9BFFCD", "#00CC99", "#01936F"];
+  const propsData = [
+    {
+      normal: "props-icons material-icons",
+      active: "props-icons material-icons active",
+      name: "brush",
+      id: "brush",
+    },
+    {
+      normal: "props-icons material-icons",
+      active: "props-icons material-icons active",
+      name: "format_color_fill",
+      id: "fill",
+    },
+    {
+      normal: "props-icons material-icons material-icons-outlined",
+      active: "props-icons material-icons material-icons-outlined active",
+      name: "crop_square",
+      id: "eraser",
+    },
+  ];
+  const [size, setSize] = useState(10);
   return (
     <>
-      <Header
-        headerOpen={headerOpen}
-        setBackgroundColor={setBackgroundColor}
-        handelClick={handelClick}
-      />
-      <canvas
-        ref={canvasRef}
-        style={{ background: backgroundColor }}
-        onClick={handleCanvasClick}
-        onMouseDown={() => setIsPainting(true)}
-        onMouseUp={() => {
-          setIsPainting(false);
-          ctx.beginPath();
-        }}
-        onMouseMove={handlePainting}
-      ></canvas>
-      <Footer
-        propsOpen={propsOpen}
-        props={props}
-        setProps={setProps}
-        color={color}
-        setColor={setColor}
-        handelClick={handelClick}
-      />
-      {/* <footer>
+      <footer>
         {propsOpen ? (
           <div className="props">
             <ul>
@@ -157,8 +102,8 @@ function App() {
             </span>
           </button>
         </div>
-      </footer> */}
+      </footer>
     </>
   );
 }
-export default App;
+export default Footer;
