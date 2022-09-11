@@ -12,8 +12,8 @@ function App() {
   const [size, setSize] = useState(10);
   const [color, setColor] = useState("#000000");
   const [backgroundColor, setBackgroundColor] = useState("#E8E8E8");
- const [haveUndo,setHaveUndo]=useState(false)
- const [haveRedo,setHaveRedo]=useState(false)
+  const [haveUndo, setHaveUndo] = useState(false)
+  const [haveRedo, setHaveRedo] = useState(false)
   const handelClick = (e) => {
     switch (e.target.id) {
       case "isHeaderBtn":
