@@ -21,10 +21,6 @@ export const useOnDraw = (onDraw) => {
   const startPainting = () => {
     isPainting.current = true;
   };
-  const stopPainting = () => {
-    isPainting.current = false;
-    ctx.current.beginPath();
-  };
   const painting = useCallback(() => {
     canvasRef.current.addEventListener("mousemove", (e) => {
       if (isPainting.current) {
@@ -38,7 +34,10 @@ export const useOnDraw = (onDraw) => {
     if (canvasRef.current) {
       ctx.current = canvasRef.current.getContext("2d");
     }
-    return () => stopPainting();
+    return () => {
+      isPainting.current = false;
+      ctx.current.beginPath();
+    };
   }, [isPainting, painting]);
-  return { setCanvasRef, startPainting, stopPainting, ctx };
+  return { setCanvasRef, startPainting, ctx, isPainting,canvasRef };
 };

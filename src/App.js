@@ -12,6 +12,8 @@ function App() {
   const [size, setSize] = useState(10);
   const [color, setColor] = useState("#000000");
   const [backgroundColor, setBackgroundColor] = useState("#E8E8E8");
+ const [haveUndo,setHaveUndo]=useState(false)
+ const [haveRedo,setHaveRedo]=useState(false)
   const handelClick = (e) => {
     switch (e.target.id) {
       case "isHeaderBtn":
@@ -33,9 +35,18 @@ function App() {
     }
   };
   const canvasRef = useRef();
+  const handelSave = () =>{
+    canvasRef.current.saveCanvas()
+  }
   const handleClearAll = () => {
     canvasRef.current.clearCanvasAll();
   };
+  const handelUndo = () =>{
+    canvasRef.current.undoFunc();
+  }
+  const handelRedo = () =>{
+    canvasRef.current.redoFunc();
+  }
   useLayoutEffect(() => {
     if (props.id === "eraser") {
       setColor("#E8E8E8");
@@ -47,7 +58,12 @@ function App() {
     <>
       <Header
         headerOpen={headerOpen}
+        save={handelSave}
         clearAll={handleClearAll}
+        undo={handelUndo}
+        redo={handelRedo}
+        haveUndo={haveUndo}
+        haveRedo={haveRedo}
         handelClick={handelClick}
       />
       <Canvas
@@ -56,6 +72,8 @@ function App() {
         backgroundColor={backgroundColor}
         color={color}
         size={size}
+        setHaveUndo={setHaveUndo}
+        setHaveRedo={setHaveRedo}
         ref={canvasRef}
       />
       <Footer

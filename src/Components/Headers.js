@@ -1,32 +1,75 @@
-function Header({ headerOpen, clearAll, handelClick }) {
+function Header({
+  headerOpen,
+  save,
+  clearAll,
+  undo,
+  redo,
+  handelClick,
+  haveUndo,
+  haveRedo,
+}) {
   return (
     <>
       <header>
         <ul className={headerOpen ? "" : "closeHeader"}>
-          <li>
-            <span className="material material-symbols-outlined">save</span>
-            <span>SAVE</span>
+          <li onClick={save}>
+            <a href="#" download="我的canvas" data-function="save" id="save">
+              <span className="material material-symbols-outlined">save</span>
+              <span>SAVE</span>
+            </a>
           </li>
           <li onClick={clearAll}>
-            <span className="material material-symbols-outlined">
-              crop_free
-            </span>
-            <span>CLEAR ALL</span>
+            <a href="#">
+              <span className="material material-symbols-outlined">
+                crop_free
+              </span>
+              <span>CLEAR ALL</span>
+            </a>
           </li>
-          <li data-function="undo">
-            <span className="material material-icons material-icons-outlined">
-              undo
-            </span>
-            <span>UNDO</span>
-          </li>
-          <li data-function="redo">
-            <span
-              className="material material-icons material-icons-outlined"
-              data-function="redo"
+          <li
+            data-function="undo"
+            onClick={undo}
+            className={haveUndo ? "" : `cursor-not-allowed disabled`}
+          >
+            <a
+              href="#"
+              disabled={!haveUndo}
+              className={haveUndo ? "" : `cursor-not-allowed disabled`}
             >
-              redo
-            </span>
-            <span>REDO</span>
+              <span
+                className={
+                  haveUndo
+                    ? `material-icons material material-icons-outlined`
+                    : `cursor-not-allowed material material-icons-outlined`
+                }
+              >
+                undo
+              </span>
+              <span>UNDO</span>
+            </a>
+          </li>
+          <li
+            data-function="redo"
+            onClick={redo}
+            className={haveRedo ? "" : `cursor-not-allowed disabled`}
+          >
+            <a
+              href="#"
+              disabled={!haveRedo}
+              className={haveRedo ? "" : `cursor-not-allowed disabled`}
+            >
+              <span
+                className={
+                  haveRedo
+                    ? `material-icons material material-icons-outlined`
+                    : `cursor-not-allowed material material-icons-outlined`
+                }
+                data-function="redo"
+              >
+                redo
+              </span>
+              <span>REDO</span>
+            </a>
           </li>
         </ul>
         <button className={headerOpen ? "" : "closeHeaderBtn"}>
