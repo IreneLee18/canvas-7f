@@ -6,13 +6,13 @@ function Canvas( { props, backgroundColor, color, size, setHaveUndo, setHaveRedo
   const currentColor = useRef(color);
   const pic = useRef(new Image()); // 建立新的 Image
   const step = useRef(0);
-  const canvasData = useRef([]);
-  const [canvasArray, setCanvasArray] = useState(null);
+  const canvasArray = useRef([]);
+  const [canvasData, setCanvasData] = useState(null);
   const { setCanvasRef, startPainting, ctx, isPainting, canvasRef } =
     useOnDraw(onDraw);
 
   useLayoutEffect(() => {
-    if (canvasData.current.length === 0) {
+    if (canvasArray.current.length === 0) {
       init();
     }
   }, []);
@@ -35,14 +35,14 @@ function Canvas( { props, backgroundColor, color, size, setHaveUndo, setHaveRedo
 
   const stopPainting = () => {
     if (!isPainting.current) return;
-    if (step.current !== canvasData.current.length - 1) {
-      canvasData.current = canvasData.current.splice(0, step.current + 1);
+    if (step.current !== canvasArray.current.length - 1) {
+      canvasArray.current = canvasArray.current.splice(0, step.current + 1);
     }
     if(props.id !== 'fill'){
       step.current++;
       isPainting.current = false;
       ctx.current.beginPath();
-      canvasData.current.push(canvasRef.current.toDataURL());
+      canvasArray.current.push(canvasRef.current.toDataURL());
       getImage();
       setHaveUndo(true);
       setHaveRedo(false);
@@ -52,14 +52,14 @@ function Canvas( { props, backgroundColor, color, size, setHaveUndo, setHaveRedo
   const init = () => {
     setHaveUndo(false);
     setHaveRedo(false);
-    if (canvasData.current.length > 1) {
-      canvasData.current = canvasData.current.splice(0, 1);
+    if (canvasArray.current.length > 1) {
+      canvasArray.current = canvasArray.current.splice(0, 1);
       step.current = 0;
       getImage();
-    } else if (canvasData.current.length === 0) {
-      canvasData.current.push(canvasRef.current.toDataURL());
-      setCanvasArray(canvasData.current[0]);
-      pic.current.src = canvasArray;
+    } else if (canvasArray.current.length === 0) {
+      canvasArray.current.push(canvasRef.current.toDataURL());
+      setCanvasData(canvasArray.current[0]);
+      pic.current.src = canvasData;
     }
   };
 
@@ -68,8 +68,8 @@ function Canvas( { props, backgroundColor, color, size, setHaveUndo, setHaveRedo
     step.current++
     // 先填滿顏色
     fill(currentColor.current);
-    // 在將目前畫布取出來並放入canvasData中
-    canvasData.current.push(canvasRef.current.toDataURL());
+    // 在將目前畫布取出來並放入canvasArray中
+    canvasArray.current.push(canvasRef.current.toDataURL());
     // 把目前畫布顯示在畫面上
     getImage()
   };
@@ -81,18 +81,18 @@ function Canvas( { props, backgroundColor, color, size, setHaveUndo, setHaveRedo
   };
 
   const getImage = useCallback(() => {
-    setCanvasArray(() => canvasData.current[step.current]);
-    pic.current.src = canvasArray; //載入影像
+    setCanvasData(() => canvasArray.current[step.current]);
+    pic.current.src = canvasData; //載入影像
     pic.current.onload = function () {
       ctx.current.clearRect(0, 0, window.outerWidth, window.outerHeight);
       ctx.current.drawImage(pic.current, 0, 0);
     };
-  }, [canvasArray, ctx]);
+  }, [canvasData, ctx]);
 
   useLayoutEffect(() => {
     getImage();
     if (step.current === 0) setHaveUndo(false);
-    if (step.current === canvasData.current.length - 1) setHaveRedo(false);
+    if (step.current === canvasArray.current.length - 1) setHaveRedo(false);
   }, [getImage, setHaveRedo, setHaveUndo]);
 
   useImperativeHandle(ref, () => ({
@@ -111,7 +111,7 @@ function Canvas( { props, backgroundColor, color, size, setHaveUndo, setHaveRedo
       }
     },
     redoFunc: () => {
-      if (step.current < canvasData.current.length - 1) {
+      if (step.current < canvasArray.current.length - 1) {
         step.current++;
         getImage();
         setHaveUndo(true);
