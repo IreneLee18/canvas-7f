@@ -38,13 +38,15 @@ function Canvas( { props, backgroundColor, color, size, setHaveUndo, setHaveRedo
     if (step.current !== canvasData.current.length - 1) {
       canvasData.current = canvasData.current.splice(0, step.current + 1);
     }
-    step.current++;
-    isPainting.current = false;
-    ctx.current.beginPath();
-    canvasData.current.push(canvasRef.current.toDataURL());
-    getImage();
-    setHaveUndo(true);
-    setHaveRedo(false);
+    if(props.id !== 'fill'){
+      step.current++;
+      isPainting.current = false;
+      ctx.current.beginPath();
+      canvasData.current.push(canvasRef.current.toDataURL());
+      getImage();
+      setHaveUndo(true);
+      setHaveRedo(false);
+    }
   };
 
   const init = () => {
@@ -63,7 +65,13 @@ function Canvas( { props, backgroundColor, color, size, setHaveUndo, setHaveRedo
 
   const handleCanvasClick = () => {
     if (props.id !== "fill") return;
+    step.current++
+    // 先填滿顏色
     fill(currentColor.current);
+    // 在將目前畫布取出來並放入canvasData中
+    canvasData.current.push(canvasRef.current.toDataURL());
+    // 把目前畫布顯示在畫面上
+    getImage()
   };
 
   const fill = (color) => {
